@@ -1,0 +1,61 @@
+//
+//  PlayerDetailViewController.swift
+//  SuperPong
+//
+//  Created by Nathan Stowell on 12/21/14.
+//  Copyright (c) 2014 OnePixelOff. All rights reserved.
+//
+
+import UIKit
+
+
+class PlayerDetailViewController: UIViewController {
+    
+    @IBOutlet weak var playerNameLabel: UILabel!
+    
+    @IBOutlet weak var playerRankLabel: UILabel!
+    
+    @IBOutlet weak var playerWinsLabel: UILabel!
+    
+    @IBOutlet weak var playerLossesLabel: UILabel!
+    
+    
+    var player:PlayerModel?
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        let total = self.player?.totalGames ?? 0
+        let wins = self.player?.wins ?? 0
+        let losses = abs( total - wins )
+        
+        let rank  = self.player?.rank.description ?? "0"
+        
+        playerNameLabel.text = self.player?.name ?? ""
+        playerRankLabel.text = "#" + rank
+        playerWinsLabel.text = "wins: " + wins.description
+        playerLossesLabel.text = "losses: " + losses.description
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

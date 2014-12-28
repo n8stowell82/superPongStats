@@ -14,6 +14,16 @@
 		F752AA411A4A17CB000D9BA5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F752AA401A4A17CB000D9BA5 /* Images.xcassets */; };
 		F752AA441A4A17CB000D9BA5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F752AA421A4A17CB000D9BA5 /* LaunchScreen.xib */; };
 		F752AA501A4A17CB000D9BA5 /* superPongStatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F752AA4F1A4A17CB000D9BA5 /* superPongStatsTests.swift */; };
+		F78FC7451A50AC99001A3564 /* DataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC73B1A50AC99001A3564 /* DataManger.swift */; };
+		F78FC7461A50AC99001A3564 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC73C1A50AC99001A3564 /* GameViewController.swift */; };
+		F78FC7471A50AC99001A3564 /* PlayerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC73D1A50AC99001A3564 /* PlayerDetailViewController.swift */; };
+		F78FC7481A50AC99001A3564 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC73E1A50AC99001A3564 /* PlayerModel.swift */; };
+		F78FC7491A50AC99001A3564 /* Players.json in Resources */ = {isa = PBXBuildFile; fileRef = F78FC73F1A50AC99001A3564 /* Players.json */; };
+		F78FC74A1A50AC99001A3564 /* PlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7401A50AC99001A3564 /* PlayersViewController.swift */; };
+		F78FC74B1A50AC99001A3564 /* PlayerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7411A50AC99001A3564 /* PlayerTableViewController.swift */; };
+		F78FC74C1A50AC99001A3564 /* superPong.png in Resources */ = {isa = PBXBuildFile; fileRef = F78FC7421A50AC99001A3564 /* superPong.png */; };
+		F78FC74D1A50AC99001A3564 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */; };
+		F78FC74E1A50AC99001A3564 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7441A50AC99001A3564 /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +48,16 @@
 		F752AA491A4A17CB000D9BA5 /* superPongStatsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = superPongStatsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F752AA4E1A4A17CB000D9BA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F752AA4F1A4A17CB000D9BA5 /* superPongStatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = superPongStatsTests.swift; sourceTree = "<group>"; };
+		F78FC73B1A50AC99001A3564 /* DataManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManger.swift; sourceTree = "<group>"; };
+		F78FC73C1A50AC99001A3564 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		F78FC73D1A50AC99001A3564 /* PlayerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDetailViewController.swift; sourceTree = "<group>"; };
+		F78FC73E1A50AC99001A3564 /* PlayerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
+		F78FC73F1A50AC99001A3564 /* Players.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Players.json; sourceTree = "<group>"; };
+		F78FC7401A50AC99001A3564 /* PlayersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersViewController.swift; sourceTree = "<group>"; };
+		F78FC7411A50AC99001A3564 /* PlayerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTableViewController.swift; sourceTree = "<group>"; };
+		F78FC7421A50AC99001A3564 /* superPong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superPong.png; sourceTree = "<group>"; };
+		F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		F78FC7441A50AC99001A3564 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +99,16 @@
 		F752AA341A4A17CB000D9BA5 /* superPongStats */ = {
 			isa = PBXGroup;
 			children = (
+				F78FC73B1A50AC99001A3564 /* DataManger.swift */,
+				F78FC73C1A50AC99001A3564 /* GameViewController.swift */,
+				F78FC73D1A50AC99001A3564 /* PlayerDetailViewController.swift */,
+				F78FC73E1A50AC99001A3564 /* PlayerModel.swift */,
+				F78FC73F1A50AC99001A3564 /* Players.json */,
+				F78FC7401A50AC99001A3564 /* PlayersViewController.swift */,
+				F78FC7411A50AC99001A3564 /* PlayerTableViewController.swift */,
+				F78FC7421A50AC99001A3564 /* superPong.png */,
+				F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */,
+				F78FC7441A50AC99001A3564 /* TableViewCell.swift */,
 				F752AA371A4A17CB000D9BA5 /* AppDelegate.swift */,
 				F752AA391A4A17CB000D9BA5 /* MasterViewController.swift */,
 				F752AA3B1A4A17CB000D9BA5 /* DetailViewController.swift */,
@@ -195,9 +225,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F78FC7491A50AC99001A3564 /* Players.json in Resources */,
 				F752AA3F1A4A17CB000D9BA5 /* Main.storyboard in Resources */,
 				F752AA441A4A17CB000D9BA5 /* LaunchScreen.xib in Resources */,
 				F752AA411A4A17CB000D9BA5 /* Images.xcassets in Resources */,
+				F78FC74C1A50AC99001A3564 /* superPong.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,9 +247,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F78FC7461A50AC99001A3564 /* GameViewController.swift in Sources */,
 				F752AA3C1A4A17CB000D9BA5 /* DetailViewController.swift in Sources */,
+				F78FC7471A50AC99001A3564 /* PlayerDetailViewController.swift in Sources */,
+				F78FC74D1A50AC99001A3564 /* SwiftyJSON.swift in Sources */,
 				F752AA3A1A4A17CB000D9BA5 /* MasterViewController.swift in Sources */,
 				F752AA381A4A17CB000D9BA5 /* AppDelegate.swift in Sources */,
+				F78FC74E1A50AC99001A3564 /* TableViewCell.swift in Sources */,
+				F78FC74A1A50AC99001A3564 /* PlayersViewController.swift in Sources */,
+				F78FC7451A50AC99001A3564 /* DataManger.swift in Sources */,
+				F78FC7481A50AC99001A3564 /* PlayerModel.swift in Sources */,
+				F78FC74B1A50AC99001A3564 /* PlayerTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +451,7 @@
 				F752AA551A4A17CB000D9BA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F752AA561A4A17CB000D9BA5 /* Build configuration list for PBXNativeTarget "superPongStatsTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +460,7 @@
 				F752AA581A4A17CB000D9BA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
