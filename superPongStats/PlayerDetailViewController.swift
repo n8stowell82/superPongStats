@@ -19,6 +19,11 @@ class PlayerDetailViewController: UIViewController {
     
     @IBOutlet weak var playerLossesLabel: UILabel!
     
+    @IBOutlet weak var addToGameButton: UIButton!
+    
+    @IBAction func addToGameAction(sender: AnyObject) {
+        handleAddPlayerToGame()
+    }
     
     var player:PlayerModel?
     
@@ -40,11 +45,19 @@ class PlayerDetailViewController: UIViewController {
         playerRankLabel.text = "#" + rank
         playerWinsLabel.text = "wins: " + wins.description
         playerLossesLabel.text = "losses: " + losses.description
+        
+        self.addToGameButton.layer.borderWidth = 1
+        self.addToGameButton.layer.cornerRadius = 5
+        self.addToGameButton.layer.borderColor = UIColor(red: 0.98, green: 0.53, blue: 0.0, alpha: 1.0).CGColor
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func handleAddPlayerToGame(){
+        GamePlayersAPI.sharedInstance.addPlayerToGame(player!)
     }
     
 

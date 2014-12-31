@@ -13,15 +13,17 @@ class PlayerModel: NSObject, Printable {
     let rank: Int
     let wins: Int
     let totalGames: Int
-    let MostKilled: String
-    let MostKilledBy: String
+    let mostKilled: String
+    let mostKilledBy: String
+    var isInCurrentGame: Bool
     
-    init(name: String?, rank: Int?, wins: Int?, totalGames:Int?, MostKilled:String?, MostKilledBy:String?) {
+    init(name: String?, rank: Int?, wins: Int?, totalGames:Int?, mostKilled:String?, mostKilledBy:String?) {
         self.name = name ?? ""
         self.rank = rank ?? 0
         self.wins = wins ?? 0
         self.totalGames = totalGames ?? 0
-        self.MostKilled = MostKilled ?? ""
-        self.MostKilledBy = MostKilledBy ?? ""
+        self.mostKilled = mostKilled ?? ""
+        self.mostKilledBy = mostKilledBy ?? ""
+        self.isInCurrentGame = false
     }
 }

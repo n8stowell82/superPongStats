@@ -7,17 +7,46 @@
 //
 
 import UIKit
+import QuartzCore
 
-class GameViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+extension Array {
+    /// Shuffle the elements of `self` in-place.
+    mutating func shuffle() {
+        for i in 0..<(count - 1) {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            swap(&self[i], &self[j])
+        }
+    }
+    
+    /// Return a copy of `self` with its elements shuffled
+    func shuffled() -> [T] {
+        var list = self
+        list.shuffle()
+        return list
+    }
+}
+
+class GameViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TableViewCellDelegate{
     
     @IBOutlet weak var gamePlayersTable: UITableView!
     
+    @IBOutlet weak var playerCountLabel: UILabel!
+    
+    @IBOutlet weak var startButton: UIButton!
+    
+    @IBAction func startButtonHit(sender: UIButton) {
+        handleStartHit()
+    }
+    
     var playersInGame = [PlayerModel]()
+    var playersKilled = [PlayerModel]()
+    var gameInProgress: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePlayerTable", name: "InGamePlayersUpdated", object: nil)
         
         //tableView setup
         gamePlayersTable.dataSource = self
@@ -26,6 +55,17 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         gamePlayersTable.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         gamePlayersTable.separatorStyle = .None
         gamePlayersTable.rowHeight = 50.0
+        
+        updatePlayerTable()
+        
+        //start button setup
+        self.startButton.layer.borderWidth = 1
+        self.startButton.layer.cornerRadius = 5
+        self.startButton.layer.borderColor = UIColor(red: 0.98, green: 0.53, blue: 0.0, alpha: 1.0).CGColor
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +73,41 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Dispose of any resources that can be recreated.
     }
     
+    func updatePlayerTable(){
+        playersInGame = GamePlayersAPI.sharedInstance.getPlayersInGame()
+        playerCountLabel.text = "Players In Game " + playersInGame.count.description
+        gamePlayersTable.reloadData()
+    }
+    
+    func RemovePlayerFromGame(player: PlayerModel) {
+        if gameInProgress{
+            handlePlayerOutOfGame(player)
+        }
+        GamePlayersAPI.sharedInstance.deletePlayer(player)
+    }
+    
+    func handleStartHit(){
+        if(!gameInProgress && playersInGame.count > 1){
+            playersInGame.shuffle()
+            gamePlayersTable.reloadData()
+            self.startButton.setTitle("Started", forState: UIControlState.Normal)
+            gameInProgress = true
+        }
+    }
+    
+    func handlePlayerOutOfGame(player:PlayerModel){
+        let index = (playersInGame as NSArray).indexOfObject(player)
+        if index == NSNotFound { return }
+        player.isInCurrentGame = false
+        // could removeAtIndex in the loop but keep it here for when indexOfObject works
+        
+        let indexPathForRow = NSIndexPath(forRow: index, inSection: 0)
+        let cell = self.gamePlayersTable.cellForRowAtIndexPath(indexPathForRow)
+        cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+        cell?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
+        cell?.textLabel?.textColor = UIColor.redColor()
+        //notify of player out of game and update records to reflect that
+    }
 
     /*
     // MARK: - Navigation
@@ -58,23 +133,25 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as TableViewCell
         
         let player = self.playersInGame[indexPath.row]
-        
         cell.selectionStyle = .None
         cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textColor = UIColor.whiteColor()
         cell.tintColor = UIColor.blueColor()
         cell.textLabel?.text = player.name
-        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-//        cell.delegate = self
-//        cell.player = player
+        cell.delegate = self
+        cell.player = player
         
         return cell
     }
     
     func colorForIndex(index: Int) -> UIColor {
         let playerCount = playersInGame.count - 1
-        let val = (CGFloat(index) / CGFloat(playerCount)) * 0.6
-        return UIColor(red: 1.0, green: val, blue: 0.0, alpha: 1.0)
+        if (playerCount > 0) {
+            let val = (CGFloat(index) / CGFloat(playerCount)) * 0.4
+            return UIColor(red: 1.0, green: val, blue: 0.0, alpha: 1.0)
+        }else {
+            return UIColor(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        }
     }
     
     func AddPlayerToGame(player: PlayerModel) {
@@ -97,19 +174,19 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.backgroundColor = colorForIndex(indexPath.row)
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("gameDetail", sender: tableView)
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if segue.identifier == "gameDetail" {
-            if let indexPath = self.gamePlayersTable.indexPathForSelectedRow(){
-                let selectedPlayer = playersInGame[indexPath.row]
-                let playerDetailViewController = (segue.destinationViewController as UINavigationController).topViewController as PlayerDetailViewController
-                playerDetailViewController.title = selectedPlayer.name
-                playerDetailViewController.player = selectedPlayer
-            }
-        }
-    }
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        self.performSegueWithIdentifier("gameDetail", sender: tableView)
+//    }
+//    
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+//        if segue.identifier == "gameDetail" {
+//            if let indexPath = self.gamePlayersTable.indexPathForSelectedRow(){
+//                let selectedPlayer = playersInGame[indexPath.row]
+//                let playerDetailViewController = (segue.destinationViewController as UINavigationController).topViewController as PlayerDetailViewController
+//                playerDetailViewController.title = selectedPlayer.name
+//                playerDetailViewController.player = selectedPlayer
+//            }
+//        }
+//    }
 
 }

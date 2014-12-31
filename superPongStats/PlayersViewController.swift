@@ -111,6 +111,11 @@ class PlayersViewController: UIViewController, UITableViewDataSource, UITableVie
         cell?.backgroundColor = UIColor(red: 0.0, green: 0.6, blue: 0.0, alpha: 1.0)
     }
     
+    func RemovePlayerFromGame(player: PlayerModel) {
+        //we never really need to delete a player from this list so we will just exit
+        return
+    }
+    
     // Mark: - Table view delegate
     
     

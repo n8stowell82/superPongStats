@@ -11,6 +11,7 @@ import QuartzCore
 
 protocol TableViewCellDelegate {
     func AddPlayerToGame(player: PlayerModel)
+    func RemovePlayerFromGame(player:PlayerModel)
 }
 
 class TableViewCell: UITableViewCell {
@@ -76,6 +77,10 @@ class TableViewCell: UITableViewCell {
                 if delegate != nil && player != nil {
                     // notify the delegate that this item should be deleted
                     delegate!.AddPlayerToGame(player!)
+                }
+            }else if deleteOnDragRelease{
+                if delegate != nil && player != nil{
+                    delegate!.RemovePlayerFromGame(player!)
                 }
             }
             UIView.animateWithDuration(0.2, animations: {self.frame = originalFrame})

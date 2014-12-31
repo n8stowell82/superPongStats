@@ -23,7 +23,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     }
     
     var players = [PlayerModel]()
-    var playersInGame = [PlayerModel]()
+//    var playersInGame = [PlayerModel]()
     
     var delegate: PLayerViewDelegate?
 
@@ -34,7 +34,11 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+//         self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deselectPlayerFromGame:", name: "InGamePLayerRemoved", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectPlayerForGame:", name: "InGamePLayerAdded", object: nil)
+        
         getPlayers()
         //tableView setup
         self.tableView.backgroundColor = UIColor.blackColor()
@@ -43,6 +47,10 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         self.tableView.rowHeight = 50.0
         
         self.tableView.reloadData()
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,10 +69,10 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
                     var rank: Int? = playerData["Player"]["Rank"].integerValue
                     var wins: Int? = playerData["Player"]["Wins"].integerValue
                     var totalGames: Int? = playerData["Player"]["TotalGames"].integerValue
-                    var MostKilled: String? = playerData["Player"]["MostKilled"].stringValue
-                    var MostKilledBy: String? = playerData["Player"]["MostKilledBy"].stringValue
+                    var mostKilled: String? = playerData["Player"]["MostKilled"].stringValue
+                    var mostKilledBy: String? = playerData["Player"]["MostKilledBy"].stringValue
                     
-                    var player = PlayerModel(name: name, rank: rank, wins: wins, totalGames: totalGames, MostKilled: MostKilled, MostKilledBy: MostKilledBy)
+                    var player = PlayerModel(name: name, rank: rank, wins: wins, totalGames: totalGames, mostKilled: mostKilled, mostKilledBy: mostKilledBy)
                     
                     self.players.append(player)
                 }
@@ -107,19 +115,48 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     
     func colorForIndex(index: Int) -> UIColor {
         let itemCount = players.count - 1
-        let val = (CGFloat(index) / CGFloat(itemCount)) * 0.6
+        let val = (CGFloat(index) / CGFloat(itemCount)) * 0.4
         return UIColor(red: 1.0, green: val, blue: 0.0, alpha: 1.0)
     }
     
     func AddPlayerToGame(player: PlayerModel) {
-        let index = (players as NSArray).indexOfObject(player)
-        if index == NSNotFound { return }
-        
+        player.isInCurrentGame = true;
+        GamePlayersAPI.sharedInstance.addPlayerToGame(player)
         // could removeAtIndex in the loop but keep it here for when indexOfObject works
+        decoratePlayerAsSelected(player)
+    }
+    
+    func RemovePlayerFromGame(player: PlayerModel) {
+        //we never really need to delete a player from this list so we will just exit
+        return
+    }
+    
+    func deselectPlayerFromGame(notification: NSNotification){
+        let userInfo = notification.userInfo as [String: AnyObject]
+        var player = userInfo["player"] as PlayerModel?
+        
+        let index = (players as NSArray).indexOfObject(player!)
+        if index == NSNotFound { return }
         
         let indexPathForRow = NSIndexPath(forRow: index, inSection: 0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPathForRow)
-        playersInGame.append(player)
+        cell?.accessoryType = UITableViewCellAccessoryType.DetailButton
+        cell?.backgroundColor = colorForIndex(index)
+        
+    }
+    
+    func selectPlayerForGame(notification: NSNotification){
+        let userInfo = notification.userInfo as [String: AnyObject]
+        var player = userInfo["player"] as PlayerModel?
+        decoratePlayerAsSelected(player!)
+    }
+    
+    private func decoratePlayerAsSelected(player:PlayerModel){
+        let index = (players as NSArray).indexOfObject(player)
+        if index == NSNotFound { return }
+        
+        let indexPathForRow = NSIndexPath(forRow: index, inSection: 0)
+        let cell = self.tableView.cellForRowAtIndexPath(indexPathForRow)
         cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
         cell?.backgroundColor = UIColor(red: 0.0, green: 0.6, blue: 0.0, alpha: 1.0)
     }
@@ -173,7 +210,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
                 let selectedPlayer = players[indexPath.row]
                 let playerDetailViewController = (segue.destinationViewController as UINavigationController).topViewController as PlayerDetailViewController
 //                let playerDetailViewController = segue.destinationViewController as PlayerDetailViewController
-                playerDetailViewController.title = selectedPlayer.name
+                playerDetailViewController.title = "Player Stats"
                 playerDetailViewController.player = selectedPlayer
             }
         }
