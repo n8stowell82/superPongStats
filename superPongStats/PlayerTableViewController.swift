@@ -18,6 +18,13 @@ protocol PLayerViewDelegate {
 
 class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     
+    enum UIUserInterfaceIdiom : Int {
+        case Unspecified
+        
+        case Phone // iPhone and iPod touch style UI
+        case Pad // iPad style UI
+    }
+    
     @IBAction func cancelToPlayersViewController(segue:UIStoryboardSegue) {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -29,6 +36,11 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad
+        {
+            self.navigationItem.rightBarButtonItem = nil
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -98,13 +110,14 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
 
         // Get the corresponding candy from our candies array
         let player = self.players[indexPath.row]
-        cell.backgroundColor = colorForIndex(indexPath.row)
         
         // Configure the cell
+        cell.canAddPlayer = true
+        cell.backgroundColor = colorForIndex(indexPath.row)
         cell.selectionStyle = .None
         cell.textLabel?.backgroundColor = UIColor.clearColor()
-        cell.textLabel?.textColor = UIColor.whiteColor()
-        cell.tintColor = UIColor.blueColor()
+        cell.textLabel?.textColor = UIColor.blackColor()
+        cell.tintColor = UIColor.blackColor()
         cell.textLabel?.text = player.name
         cell.accessoryType = UITableViewCellAccessoryType.DetailButton
         cell.delegate = self
@@ -115,13 +128,13 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     
     func colorForIndex(index: Int) -> UIColor {
         let itemCount = players.count - 1
-        let val = (CGFloat(index) / CGFloat(itemCount)) * 0.4
+        let val = (CGFloat(index) / CGFloat(itemCount)) * 0.6
         return UIColor(red: 1.0, green: val, blue: 0.0, alpha: 1.0)
     }
     
     func AddPlayerToGame(player: PlayerModel) {
-        player.isInCurrentGame = true;
         GamePlayersAPI.sharedInstance.addPlayerToGame(player)
+        player.isInCurrentGame = true;
         // could removeAtIndex in the loop but keep it here for when indexOfObject works
         decoratePlayerAsSelected(player)
     }
@@ -213,6 +226,10 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
                 playerDetailViewController.title = "Player Stats"
                 playerDetailViewController.player = selectedPlayer
             }
+        }
+        
+        if segue.identifier == "gameView"{
+            
         }
     }
 }

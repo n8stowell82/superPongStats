@@ -82,7 +82,9 @@
                         <color key="tintColor" red="0.98823499680000004" green="0.53888436689999997" blue="0.0029067093479999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottomMargin" secondItem="f4I-Jj-EBQ" secondAttribute="bottom" id="AmB-6P-J0W"/>
-                            <constraint firstItem="BIc-ot-Lj6" firstAttribute="trailing" secondItem="svH-Pt-448" secondAttribute="trailingMargin" constant="-15" id="Nku-z6-BFA"/>
+                            <constraint firstItem="BIc-ot-Lj6" firstAttribute="trailing" secondItem="svH-Pt-448" secondAttribute="trailingMargin" constant="-15" id="Nku-z6-BFA">
+                                <variation key="widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="f4I-Jj-EBQ" secondAttribute="trailing" id="eEa-oo-ix0"/>
                             <constraint firstItem="f4I-Jj-EBQ" firstAttribute="top" secondItem="smZ-7M-Wcx" secondAttribute="bottom" constant="5" id="f5W-lM-C3y"/>
                             <constraint firstItem="smZ-7M-Wcx" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="10" id="fXq-Fg-7ZC"/>
@@ -146,6 +148,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="McD-Af-2gI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1467" y="-630"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="QU2-Ha-QSa">
+            <objects>
+                <tableViewController id="CX2-dv-6Zu" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Uwg-qG-QLa">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="dZL-zq-50B">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dZL-zq-50B" id="ibo-fA-7tc">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CX2-dv-6Zu" id="IWb-gF-OZW"/>
+                            <outlet property="delegate" destination="CX2-dv-6Zu" id="c5T-CF-r8q"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="neE-ht-zbm"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9qM-Dd-Hut" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2287" y="129"/>
         </scene>
         <!--Player Detail View Controller-->
         <scene sceneID="jvB-Go-0h4">
@@ -275,7 +304,13 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Players" id="Zdf-7t-Un8"/>
+                    <navigationItem key="navigationItem" title="Players" id="Zdf-7t-Un8">
+                        <barButtonItem key="rightBarButtonItem" title="Game" id="czE-gT-VbD">
+                            <connections>
+                                <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="gameView" id="Bkb-Zx-MBB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
@@ -284,7 +319,7 @@
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">
             <objects>
-                <navigationController id="vC3-pB-5Vb" sceneMemberID="viewController">
+                <navigationController modalTransitionStyle="crossDissolve" id="vC3-pB-5Vb" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" barStyle="black" id="DjV-YW-jjY">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -302,4 +337,8 @@
             <point key="canvasLocation" x="-45" y="129"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Bkb-Zx-MBB"/>
+    </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.98823499680000004" green="0.53888436689999997" blue="0.0029067093479999999" alpha="1" colorSpace="calibratedRGB"/>
 </document>

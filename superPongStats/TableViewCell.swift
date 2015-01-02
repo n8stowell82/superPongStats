@@ -18,6 +18,9 @@ class TableViewCell: UITableViewCell {
     
     let gradientLayer = CAGradientLayer()
     
+    var canAddPlayer:Bool = false
+    var canRemovePlayer:Bool = false
+    
     var originalCenter = CGPoint()
     var deleteOnDragRelease = false
     var addPlayerOnDragRelease = false
@@ -25,12 +28,35 @@ class TableViewCell: UITableViewCell {
     var delegate: TableViewCellDelegate?
     var player: PlayerModel?
     
+    var tickLabel: UILabel, crossLabel: UILabel
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("NSCoding not supported")
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        
+        // utility method for creating the contextual cues
+        func createCueLabel() -> UILabel {
+            let label = UILabel(frame: CGRect.nullRect)
+            label.textColor = UIColor.whiteColor()
+            label.font = UIFont.boldSystemFontOfSize(32.0)
+            label.backgroundColor = UIColor.clearColor()
+            return label
+        }
+        
+        // tick and cross labels for context cues
+        tickLabel = createCueLabel()
+        tickLabel.text = "\u{2713}"
+        tickLabel.textAlignment = .Right
+        crossLabel = createCueLabel()
+        crossLabel.text = "\u{2715}"
+        crossLabel.textAlignment = .Left
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        addSubview(tickLabel)
+        addSubview(crossLabel)
         
         // gradient layer for cell
         gradientLayer.frame = bounds
@@ -47,9 +73,25 @@ class TableViewCell: UITableViewCell {
         addGestureRecognizer(recognizer)
     }
     
+    let kUICuesMargin: CGFloat = 10.0, kUICuesWidth: CGFloat = 50.0
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = bounds
+        
+        tickLabel.frame = CGRect(x: -kUICuesWidth - kUICuesMargin, y: 0,
+            width: kUICuesWidth, height: bounds.size.height)
+        crossLabel.frame = CGRect(x: bounds.size.width + kUICuesMargin, y: 0,
+            width: kUICuesWidth, height: bounds.size.height)
+    }
+    
+    // utility method for creating the contextual cues
+    func createCueLabel() -> UILabel {
+        let label = UILabel(frame: CGRect.nullRect)
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.boldSystemFontOfSize(32.0)
+        label.backgroundColor = UIColor.clearColor()
+        return label
     }
     
     //MARK: - horizontal pan gesture methods
@@ -64,8 +106,16 @@ class TableViewCell: UITableViewCell {
             let translation = recognizer.translationInView(self)
             center = CGPointMake(originalCenter.x + translation.x, originalCenter.y)
             // has the user dragged the item far enough to initiate a delete/complete?
-            deleteOnDragRelease = frame.origin.x < -frame.size.width / 2.0
-            addPlayerOnDragRelease = frame.origin.x > frame.size.width / 2.0
+            deleteOnDragRelease = canRemovePlayer ? frame.origin.x < -frame.size.width / 3.2 : false
+            addPlayerOnDragRelease = canAddPlayer ? frame.origin.x > frame.size.width / 2.0 : false
+            
+            // fade the contextual clues
+            let cueAlpha = fabs(frame.origin.x) / (frame.size.width / 2.0)
+            tickLabel.alpha = canAddPlayer ? cueAlpha : 0.0
+            crossLabel.alpha = canRemovePlayer ? cueAlpha : 0.0
+            // indicate when the user has pulled the item far enough to invoke the given action
+            tickLabel.textColor = addPlayerOnDragRelease ? UIColor.greenColor() : UIColor.whiteColor()
+            crossLabel.textColor = deleteOnDragRelease ? UIColor.redColor() : UIColor.whiteColor()
         }
         // 3
         if recognizer.state == .Ended {

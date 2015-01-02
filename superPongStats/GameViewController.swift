@@ -38,6 +38,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         handleStartHit()
     }
     
+    let currentGame: GameModel!
     var playersInGame = [PlayerModel]()
     var playersKilled = [PlayerModel]()
     var gameInProgress: Bool = false
@@ -133,11 +134,12 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as TableViewCell
         
         let player = self.playersInGame[indexPath.row]
+        cell.canRemovePlayer = true
         cell.selectionStyle = .None
         cell.textLabel?.backgroundColor = UIColor.clearColor()
-        cell.textLabel?.textColor = UIColor.whiteColor()
-        cell.tintColor = UIColor.blueColor()
-        cell.textLabel?.text = player.name
+        cell.textLabel?.textColor = UIColor.blackColor()
+        cell.tintColor = UIColor.blackColor()
+        cell.textLabel?.text = (indexPath.row + 1).description + ".  " + player.name
         cell.delegate = self
         cell.player = player
         
@@ -173,20 +175,5 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, willDisplayCell cell:UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         cell.backgroundColor = colorForIndex(indexPath.row)
     }
-    
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        self.performSegueWithIdentifier("gameDetail", sender: tableView)
-//    }
-//    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-//        if segue.identifier == "gameDetail" {
-//            if let indexPath = self.gamePlayersTable.indexPathForSelectedRow(){
-//                let selectedPlayer = playersInGame[indexPath.row]
-//                let playerDetailViewController = (segue.destinationViewController as UINavigationController).topViewController as PlayerDetailViewController
-//                playerDetailViewController.title = selectedPlayer.name
-//                playerDetailViewController.player = selectedPlayer
-//            }
-//        }
-//    }
 
 }
