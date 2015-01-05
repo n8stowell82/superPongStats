@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class GamePlayersAPI: NSObject {
     
@@ -46,6 +47,48 @@ class GamePlayersAPI: NSObject {
         notifyOfPlayerRemoval(player)
     }
     
+    func getAllPlayersAsync() -> Void{
+        var players = [PlayerModel]()
+        var playerData:NSData?
+        
+        if Reachability.isConnectedToNetwork()
+        {
+            DataManager.loadPlayerDataFromURL("players", completion: {(data,error) -> Void in
+                if let tmpData = data{
+                    players = self.populatePlayerDataFromJson(tmpData)
+                    self.notifyOfPlayerDataRecieved(players)
+                }
+                })
+        }else{
+            DataManager.getPlayerDataFromFileWithSuccess{(data) -> Void in
+                players = self.populatePlayerDataFromJson(data)
+                self.notifyOfPlayerDataRecieved(players)
+            }
+        }
+    }
+    
+    private func populatePlayerDataFromJson(data:NSData) ->[PlayerModel]{
+        var allPlayers = [PlayerModel]()
+        let json = JSON(data: data)
+        if let playerArray = json.arrayValue {
+            
+            for playerData in playerArray{
+                let name: String? = playerData["name"].stringValue
+                let slogan: String? = playerData["slogan"].stringValue
+                let rank: Int? = (playerData["rank"].integerValue == 0) ? 100 : playerData["rank"].integerValue
+                let wins: Int? = playerData["wins"].integerValue
+                let totalGames: Int? = playerData["totalGames"].integerValue
+                let mostKilled: String? = playerData["mostKilled"].stringValue
+                let mostKilledBy: String? = playerData["mostKilledBy"].stringValue
+                
+                let player = PlayerModel(name: name, slogan: slogan, rank: rank, wins: wins, totalGames: totalGames, mostKilled: mostKilled, mostKilledBy: mostKilledBy)
+                
+                allPlayers.append(player)
+            }
+        }
+        return allPlayers
+    }
+    
     private func notifyOfPlayerUpdate(){
         NSNotificationCenter.defaultCenter().postNotificationName("InGamePlayersUpdated", object: self)
     }
@@ -56,5 +99,9 @@ class GamePlayersAPI: NSObject {
     
     private func notifyOfPlayerRemoval(player: PlayerModel){
         NSNotificationCenter.defaultCenter().postNotificationName("InGamePLayerRemoved", object: self, userInfo: ["player":player])
+    }
+    
+    private func notifyOfPlayerDataRecieved(players: [PlayerModel]){
+        NSNotificationCenter.defaultCenter().postNotificationName("PlayerDataRecieved", object: self, userInfo: ["players":players])
     }
 }

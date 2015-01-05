@@ -13,6 +13,8 @@ class PlayerDetailViewController: UIViewController {
     
     @IBOutlet weak var playerNameLabel: UILabel!
     
+    @IBOutlet weak var playerSlogan: UILabel!
+    
     @IBOutlet weak var playerRankLabel: UILabel!
     
     @IBOutlet weak var playerWinsLabel: UILabel!
@@ -38,10 +40,12 @@ class PlayerDetailViewController: UIViewController {
         let total = self.player?.totalGames ?? 0
         let wins = self.player?.wins ?? 0
         let losses = abs( total - wins )
+        let slogan = self.player?.slogan ?? ""
         
         let rank  = self.player?.rank.description ?? "0"
         
         playerNameLabel.text = self.player?.name ?? ""
+        playerSlogan.text = "\"" + slogan + "\""
         playerRankLabel.text = "#" + rank
         playerWinsLabel.text = "wins: " + wins.description
         playerLossesLabel.text = "losses: " + losses.description

@@ -50,8 +50,10 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deselectPlayerFromGame:", name: "InGamePLayerRemoved", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectPlayerForGame:", name: "InGamePLayerAdded", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadPlayerData:", name: "PlayerDataRecieved", object: nil)
         
-        getPlayers()
+        GamePlayersAPI.sharedInstance.getAllPlayersAsync()
+        
         //tableView setup
         self.tableView.backgroundColor = UIColor.blackColor()
         self.tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
@@ -68,28 +70,6 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-    func getPlayers(){
-        players = [PlayerModel]()
-        DataManager.getPlayerDataFromFileWithSuccess{(data) -> Void in
-            let json = JSON(data: data)
-            if let playerArray = json["Players"].arrayValue {
-                
-                for playerData in playerArray{
-                    var name: String? = playerData["Player"]["Name"].stringValue
-                    var rank: Int? = playerData["Player"]["Rank"].integerValue
-                    var wins: Int? = playerData["Player"]["Wins"].integerValue
-                    var totalGames: Int? = playerData["Player"]["TotalGames"].integerValue
-                    var mostKilled: String? = playerData["Player"]["MostKilled"].stringValue
-                    var mostKilledBy: String? = playerData["Player"]["MostKilledBy"].stringValue
-                    
-                    var player = PlayerModel(name: name, rank: rank, wins: wins, totalGames: totalGames, mostKilled: mostKilled, mostKilledBy: mostKilledBy)
-                    
-                    self.players.append(player)
-                }
-            }
-        }
     }
     
     // MARK: - Table view data source
@@ -118,7 +98,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textColor = UIColor.blackColor()
         cell.tintColor = UIColor.blackColor()
-        cell.textLabel?.text = player.name
+        cell.textLabel?.text = "#" + player.rank.description + " " + player.name
         cell.accessoryType = UITableViewCellAccessoryType.DetailButton
         cell.delegate = self
         cell.player = player
@@ -130,6 +110,14 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         let itemCount = players.count - 1
         let val = (CGFloat(index) / CGFloat(itemCount)) * 0.6
         return UIColor(red: 1.0, green: val, blue: 0.0, alpha: 1.0)
+    }
+    
+    func loadPlayerData(notification: NSNotification){
+        let userInfo = notification.userInfo as [String: AnyObject]
+        players = userInfo["players"] as [PlayerModel]
+        players.sort({ $0.rank < $1.rank })
+        players.reverse()
+        tableView.reloadData()
     }
     
     func AddPlayerToGame(player: PlayerModel) {

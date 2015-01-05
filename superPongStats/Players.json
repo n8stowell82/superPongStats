@@ -1,136 +1,67 @@
 
-{
-    "Players":[
-               {
-               "Player":{
-               "Id": 1,
-               "Name": "Nathan",
-               "Rank": 1,
-               "Wins": 98,
-               "TotalGames": 100,
-               "Most Killed": "Carson",
-               "Most Killed By": "Justin"
-               }
-               },
-               {
-               "Player":{
-              "Id": 2,
-               "Name": "Carson",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 3,
-               "Name": "Justin",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 4,
-               "Name": "Kip",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 5,
-               "Name": "Suart",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 6,
-               "Name": "Matt",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 7,
-               "Name": "Andrew",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 8,
-               "Name": "Chris",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 9,
-               "Name": "Phil",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 10,
-               "Name": "Will",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 11,
-               "Name": "Steve",
-               "Rank": 2,
-               "Wins": 50,
-               "TotalGames": 100,
-               "Most Killed": "Justin",
-               "Most Killed By": "Carson"
-               }
-               },
-               {
-               "Player":{
-               "Id": 12,
-               "Name": "Taylor",
-               "Rank": 3,
-               "Wins": 2,
-               "TotalGames": 100,
-               "Most Killed": "Nathan",
-               "Most Killed By": "Justin"
-               }
-               }]
-}
+[
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+     {
+     "id": 1,
+     "name": "Nathan",
+     "rank": 0,
+     "slogan": "I am Groot",
+     "totalGames": 0,
+     "wins": 0
+     },
+ ]

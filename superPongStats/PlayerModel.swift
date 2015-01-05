@@ -10,6 +10,7 @@ import Foundation
 
 class PlayerModel: NSObject, Printable {
     let name: String
+    let slogan: String
     let rank: Int
     let wins: Int
     let totalGames: Int
@@ -17,8 +18,9 @@ class PlayerModel: NSObject, Printable {
     let mostKilledBy: String
     var isInCurrentGame: Bool
     
-    init(name: String?, rank: Int?, wins: Int?, totalGames:Int?, mostKilled:String?, mostKilledBy:String?) {
+    init(name: String?, slogan: String?, rank: Int?, wins: Int?, totalGames:Int?, mostKilled:String?, mostKilledBy:String?) {
         self.name = name ?? ""
+        self.slogan = slogan ?? ""
         self.rank = rank ?? 0
         self.wins = wins ?? 0
         self.totalGames = totalGames ?? 0
