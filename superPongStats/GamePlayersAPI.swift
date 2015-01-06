@@ -26,6 +26,7 @@ class GamePlayersAPI: NSObject {
     
     func getPlayersInGame() -> [PlayerModel] {
         return players
+
     }
     
     func addPlayerToGame(player: PlayerModel) {
@@ -67,12 +68,24 @@ class GamePlayersAPI: NSObject {
         }
     }
     
+    func savePlayerSlogan(playerModel:PlayerModel) -> Void{
+        let path = "players/" + playerModel.id.description
+        DataManager.postPlayerDataToURL(path, playerData: playerModel, completion: {(error) -> Void in
+            println(error)
+        })
+    }
+    
+    func savePlayerToDB() -> Void{
+        
+    }
+    
     private func populatePlayerDataFromJson(data:NSData) ->[PlayerModel]{
         var allPlayers = [PlayerModel]()
         let json = JSON(data: data)
         if let playerArray = json.arrayValue {
             
             for playerData in playerArray{
+                let id: Int? = playerData["id"].integerValue
                 let name: String? = playerData["name"].stringValue
                 let slogan: String? = playerData["slogan"].stringValue
                 let rank: Int? = (playerData["rank"].integerValue == 0) ? 100 : playerData["rank"].integerValue
@@ -81,7 +94,7 @@ class GamePlayersAPI: NSObject {
                 let mostKilled: String? = playerData["mostKilled"].stringValue
                 let mostKilledBy: String? = playerData["mostKilledBy"].stringValue
                 
-                let player = PlayerModel(name: name, slogan: slogan, rank: rank, wins: wins, totalGames: totalGames, mostKilled: mostKilled, mostKilledBy: mostKilledBy)
+                let player = PlayerModel(id: id, name: name, slogan: slogan, rank: rank, wins: wins, totalGames: totalGames, mostKilled: mostKilled, mostKilledBy: mostKilledBy)
                 
                 allPlayers.append(player)
             }

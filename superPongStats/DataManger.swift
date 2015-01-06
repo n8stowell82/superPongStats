@@ -36,7 +36,7 @@ class DataManager {
                 completion(data: nil, error: responseError)
             } else if let httpResponse = response as? NSHTTPURLResponse {
                 if httpResponse.statusCode != 200 {
-                    var statusError = NSError(domain:"com.raywenderlich", code:httpResponse.statusCode, userInfo:[NSLocalizedDescriptionKey : "HTTP status code has unexpected value."])
+                    var statusError = NSError(domain:"com.nathanstowell", code:httpResponse.statusCode, userInfo:[NSLocalizedDescriptionKey : "HTTP status code has unexpected value."])
                     completion(data: nil, error: statusError)
                 } else {
                     completion(data: data, error: nil)
@@ -45,5 +45,22 @@ class DataManager {
         })
         
         loadDataTask.resume()
+    }
+    
+    class func postPlayerDataToURL(path: String, playerData:PlayerModel, completion:(error: NSError?) -> Void){
+        let url = NSURL(string: baseAPIhost + path)
+        var request = NSMutableURLRequest(URL: url!)
+        var postSession = NSURLSession.sharedSession()
+        
+        request.HTTPMethod = "PUT"
+        request.HTTPBody = playerData.toJsonString().dataUsingEncoding(NSUTF8StringEncoding);
+        
+        let task = postSession.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in println("response: \(response)")
+            
+            var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+            println(strData)
+        })//task
+        
+        task.resume()
     }
 }

@@ -9,11 +9,13 @@
 import UIKit
 
 
-class PlayerDetailViewController: UIViewController {
+class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var playerNameLabel: UILabel!
     
     @IBOutlet weak var playerSlogan: UILabel!
+    
+    @IBOutlet weak var newPlayerSlogan: UITextField!
     
     @IBOutlet weak var playerRankLabel: UILabel!
     
@@ -64,6 +66,13 @@ class PlayerDetailViewController: UIViewController {
         GamePlayersAPI.sharedInstance.addPlayerToGame(player!)
     }
     
+    func textFieldShouldReturn(textField: UITextField!) -> Bool // called when 'return' key pressed. return NO to ignore.
+    {
+        player?.setSlogan(textField.text)
+        GamePlayersAPI.sharedInstance.savePlayerSlogan(player!)
+        textField.resignFirstResponder()
+        return true;
+    }
 
     /*
     // MARK: - Navigation

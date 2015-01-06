@@ -8,9 +8,10 @@
 
 import Foundation
 
-class PlayerModel: NSObject, Printable {
+class PlayerModel: Serializable, Printable {
+    let id: Int
     let name: String
-    let slogan: String
+    var slogan: String
     let rank: Int
     let wins: Int
     let totalGames: Int
@@ -18,7 +19,8 @@ class PlayerModel: NSObject, Printable {
     let mostKilledBy: String
     var isInCurrentGame: Bool
     
-    init(name: String?, slogan: String?, rank: Int?, wins: Int?, totalGames:Int?, mostKilled:String?, mostKilledBy:String?) {
+    init(id: Int?, name: String?, slogan: String?, rank: Int?, wins: Int?, totalGames:Int?, mostKilled:String?, mostKilledBy:String?) {
+        self.id = id ?? 0
         self.name = name ?? ""
         self.slogan = slogan ?? ""
         self.rank = rank ?? 0
@@ -27,5 +29,9 @@ class PlayerModel: NSObject, Printable {
         self.mostKilled = mostKilled ?? ""
         self.mostKilledBy = mostKilledBy ?? ""
         self.isInCurrentGame = false
+    }
+    
+    func setSlogan(newSlogan:String){
+        slogan = newSlogan
     }
 }

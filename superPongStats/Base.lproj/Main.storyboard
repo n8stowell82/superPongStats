@@ -149,33 +149,6 @@
             </objects>
             <point key="canvasLocation" x="1467" y="-630"/>
         </scene>
-        <!--Root View Controller-->
-        <scene sceneID="QU2-Ha-QSa">
-            <objects>
-                <tableViewController id="CX2-dv-6Zu" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Uwg-qG-QLa">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="dZL-zq-50B">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dZL-zq-50B" id="ibo-fA-7tc">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="CX2-dv-6Zu" id="IWb-gF-OZW"/>
-                            <outlet property="delegate" destination="CX2-dv-6Zu" id="c5T-CF-r8q"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="neE-ht-zbm"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9qM-Dd-Hut" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2287" y="129"/>
-        </scene>
         <!--Player Detail View Controller-->
         <scene sceneID="jvB-Go-0h4">
             <objects>
@@ -189,7 +162,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nathan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yEu-Bw-6H4" userLabel="PlayerName">
-                                <rect key="frame" x="77" y="64" width="447" height="177"/>
+                                <rect key="frame" x="77" y="84" width="447" height="177"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="150"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -198,19 +171,19 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rank" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iim-P2-tXX">
-                                <rect key="frame" x="16" y="311" width="106" height="59"/>
+                                <rect key="frame" x="16" y="331" width="106" height="59"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
                                 <color key="textColor" red="0.98823499680000004" green="0.53888436689999997" blue="0.0029067093479999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05z-Pt-7D9" userLabel="Losses">
-                                <rect key="frame" x="471" y="391" width="113" height="59"/>
+                                <rect key="frame" x="471" y="411" width="113" height="59"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMb-f3-ahV" userLabel="Wins">
-                                <rect key="frame" x="471" y="311" width="113" height="59"/>
+                                <rect key="frame" x="471" y="331" width="113" height="59"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -230,11 +203,19 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slogan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvt-dL-4Mm" userLabel="Slogan">
-                                <rect key="frame" x="228" y="241" width="145" height="59"/>
+                                <rect key="frame" x="228" y="261" width="145" height="59"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input New Slogan" textAlignment="center" minimumFontSize="30" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="iHN-VX-2bz">
+                                <rect key="frame" x="16" y="64" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="go"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Lv2-5F-m2U" id="IEc-JZ-TKK"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -243,9 +224,12 @@
                             <constraint firstAttribute="trailingMargin" secondItem="CMb-f3-ahV" secondAttribute="trailing" id="B1P-N6-2fc"/>
                             <constraint firstAttribute="centerX" secondItem="yEu-Bw-6H4" secondAttribute="centerX" id="DvJ-0R-DC4"/>
                             <constraint firstAttribute="centerX" secondItem="dvt-dL-4Mm" secondAttribute="centerX" id="JEx-WP-dPs"/>
-                            <constraint firstItem="yEu-Bw-6H4" firstAttribute="top" secondItem="dGc-UF-Why" secondAttribute="bottom" constant="20" id="Pks-Vy-R7P"/>
+                            <constraint firstItem="yEu-Bw-6H4" firstAttribute="top" secondItem="dGc-UF-Why" secondAttribute="bottom" constant="40" id="Pks-Vy-R7P"/>
+                            <constraint firstItem="iHN-VX-2bz" firstAttribute="top" secondItem="dGc-UF-Why" secondAttribute="bottom" constant="20" id="cM1-1j-jcE"/>
+                            <constraint firstItem="iHN-VX-2bz" firstAttribute="leading" secondItem="jyT-h5-I5R" secondAttribute="leadingMargin" id="cgR-AO-ZVb"/>
                             <constraint firstItem="CMb-f3-ahV" firstAttribute="top" secondItem="yEu-Bw-6H4" secondAttribute="bottom" constant="70" id="gko-ge-VHq"/>
                             <constraint firstItem="T2H-FD-KMD" firstAttribute="top" secondItem="OFG-E9-EPv" secondAttribute="bottom" constant="20" id="gm2-TT-F8L"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iHN-VX-2bz" secondAttribute="trailing" id="hZR-0a-QZz"/>
                             <constraint firstItem="iim-P2-tXX" firstAttribute="top" secondItem="yEu-Bw-6H4" secondAttribute="bottom" constant="70" id="mBM-Rz-uAx"/>
                             <constraint firstItem="05z-Pt-7D9" firstAttribute="top" secondItem="yEu-Bw-6H4" secondAttribute="bottom" constant="150" id="t5c-af-NW9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OFG-E9-EPv" secondAttribute="trailing" constant="10" id="vDZ-Bx-KsD"/>
@@ -262,6 +246,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addToGameButton" destination="OFG-E9-EPv" id="0OF-xr-ief"/>
+                        <outlet property="newPlayerSlogan" destination="iHN-VX-2bz" id="72C-Zr-sFi"/>
                         <outlet property="playerLossesLabel" destination="05z-Pt-7D9" id="l7s-fA-GfD"/>
                         <outlet property="playerNameLabel" destination="yEu-Bw-6H4" id="MjG-Ab-Ne2"/>
                         <outlet property="playerRankLabel" destination="iim-P2-tXX" id="L3E-lZ-iic"/>

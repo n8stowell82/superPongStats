@@ -16,6 +16,8 @@
 		F752AA501A4A17CB000D9BA5 /* superPongStatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F752AA4F1A4A17CB000D9BA5 /* superPongStatsTests.swift */; };
 		F7538C3D1A57BE14004073D6 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7538C3C1A57BE14004073D6 /* Reachability.swift */; };
 		F7538C3F1A59E2CA004073D6 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7538C3E1A59E2CA004073D6 /* Async.swift */; };
+		F7538C411A5BA1B8004073D6 /* JSONer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7538C401A5BA1B8004073D6 /* JSONer.swift */; };
+		F7538C441A5BA87C004073D6 /* serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7538C431A5BA87C004073D6 /* serializable.swift */; };
 		F76994B81A5499A40023B21E /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76994B71A5499A40023B21E /* GameModel.swift */; };
 		F78FC7451A50AC99001A3564 /* DataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC73B1A50AC99001A3564 /* DataManger.swift */; };
 		F78FC7461A50AC99001A3564 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC73C1A50AC99001A3564 /* GameViewController.swift */; };
@@ -53,6 +55,8 @@
 		F752AA4F1A4A17CB000D9BA5 /* superPongStatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = superPongStatsTests.swift; sourceTree = "<group>"; };
 		F7538C3C1A57BE14004073D6 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		F7538C3E1A59E2CA004073D6 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
+		F7538C401A5BA1B8004073D6 /* JSONer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONer.swift; sourceTree = "<group>"; };
+		F7538C431A5BA87C004073D6 /* serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = serializable.swift; sourceTree = "<group>"; };
 		F76994B71A5499A40023B21E /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		F78FC73B1A50AC99001A3564 /* DataManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManger.swift; sourceTree = "<group>"; };
 		F78FC73C1A50AC99001A3564 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +148,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		F7538C421A5BA862004073D6 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */,
+				F7538C401A5BA1B8004073D6 /* JSONer.swift */,
+				F7538C431A5BA87C004073D6 /* serializable.swift */,
+			);
+			name = JSON;
+			sourceTree = "<group>";
+		};
 		F7E5159C1A51303C0012762C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,7 +184,7 @@
 			children = (
 				F7538C3E1A59E2CA004073D6 /* Async.swift */,
 				F78FC7441A50AC99001A3564 /* TableViewCell.swift */,
-				F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */,
+				F7538C421A5BA862004073D6 /* JSON */,
 				F7538C3C1A57BE14004073D6 /* Reachability.swift */,
 			);
 			name = Helpers;
@@ -292,9 +306,11 @@
 				F752AA3C1A4A17CB000D9BA5 /* DetailViewController.swift in Sources */,
 				F78FC7471A50AC99001A3564 /* PlayerDetailViewController.swift in Sources */,
 				F78FC74D1A50AC99001A3564 /* SwiftyJSON.swift in Sources */,
+				F7538C441A5BA87C004073D6 /* serializable.swift in Sources */,
 				F752AA3A1A4A17CB000D9BA5 /* MasterViewController.swift in Sources */,
 				F76994B81A5499A40023B21E /* GameModel.swift in Sources */,
 				F752AA381A4A17CB000D9BA5 /* AppDelegate.swift in Sources */,
+				F7538C411A5BA1B8004073D6 /* JSONer.swift in Sources */,
 				F78FC74E1A50AC99001A3564 /* TableViewCell.swift in Sources */,
 				F7F066701A50BB1A00782E61 /* GamePlayersAPI.swift in Sources */,
 				F78FC7451A50AC99001A3564 /* DataManger.swift in Sources */,
