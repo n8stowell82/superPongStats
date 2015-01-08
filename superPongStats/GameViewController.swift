@@ -50,9 +50,15 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePlayerTable", name: "InGamePlayersUpdated", object: nil)
         
         //tableView setup
+        var bg = UIImage(named: "spLogo.png")
+        var bgImage:UIImageView = UIImageView(image: bg)
+        bgImage.contentMode = .ScaleAspectFit
+        bgImage.alpha = 0.2
+        
         gamePlayersTable.dataSource = self
         gamePlayersTable.delegate = self
-        gamePlayersTable.backgroundColor = UIColor.blackColor()
+        gamePlayersTable.backgroundColor = UIColor.darkGrayColor()
+        gamePlayersTable.backgroundView = bgImage
         gamePlayersTable.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         gamePlayersTable.separatorStyle = .None
         gamePlayersTable.rowHeight = 50.0

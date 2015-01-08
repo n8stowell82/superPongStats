@@ -11,6 +11,8 @@ import UIKit
 
 class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var visualEffectViewBackground: UIVisualEffectView!
+    
     @IBOutlet weak var playerNameLabel: UILabel!
     
     @IBOutlet weak var playerSlogan: UILabel!
@@ -54,7 +56,10 @@ class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
         
         self.addToGameButton.layer.borderWidth = 1
         self.addToGameButton.layer.cornerRadius = 5
-        self.addToGameButton.layer.borderColor = UIColor(red: 0.98, green: 0.53, blue: 0.0, alpha: 1.0).CGColor
+//        self.addToGameButton.layer.borderColor = UIColor(red: 0.98, green: 0.53, blue: 0.0, alpha: 1.0).CGColor
+        self.addToGameButton.layer.borderColor = UIColor.darkGrayColor().CGColor
+        
+        self.newPlayerSlogan.layer.borderColor = UIColor.whiteColor().CGColor
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,7 +75,9 @@ class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
     {
         player?.setSlogan(textField.text)
         GamePlayersAPI.sharedInstance.savePlayerSlogan(player!)
+        playerSlogan.text = "\"" + textField.text + "\""
         textField.resignFirstResponder()
+        textField.text = nil
         return true;
     }
 

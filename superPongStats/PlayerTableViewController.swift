@@ -33,9 +33,16 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
 //    var playersInGame = [PlayerModel]()
     
     var delegate: PLayerViewDelegate?
+    
+    var refresher:UIRefreshControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.refresher = UIRefreshControl()
+        self.refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
+        self.refresher.addTarget(self, action: "retrieveTableData", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refresher)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad
         {
@@ -52,15 +59,17 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectPlayerForGame:", name: "InGamePLayerAdded", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadPlayerData:", name: "PlayerDataRecieved", object: nil)
         
-        GamePlayersAPI.sharedInstance.getAllPlayersAsync()
+        retrieveTableData()
         
         //tableView setup
-        self.tableView.backgroundColor = UIColor.blackColor()
+       
+        self.tableView.backgroundColor = UIColor.darkGrayColor()
         self.tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.separatorStyle = .None
         self.tableView.rowHeight = 50.0
         
         self.tableView.reloadData()
+        
     }
     
     deinit {
@@ -106,6 +115,10 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         return cell
     }
     
+    func retrieveTableData(){
+        GamePlayersAPI.sharedInstance.getAllPlayersAsync()
+    }
+    
     func colorForIndex(index: Int) -> UIColor {
         let itemCount = players.count - 1
         let val = (CGFloat(index) / CGFloat(itemCount)) * 0.6
@@ -118,6 +131,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         players.sort({ $0.rank < $1.rank })
         players.reverse()
         tableView.reloadData()
+        self.refreshControl?.endRefreshing()
     }
     
     func AddPlayerToGame(player: PlayerModel) {

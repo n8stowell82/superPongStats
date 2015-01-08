@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 let baseAPIhost = "https://powerful-wildwood-4113.herokuapp.com/api/"
 
@@ -47,20 +48,20 @@ class DataManager {
         loadDataTask.resume()
     }
     
-    class func postPlayerDataToURL(path: String, playerData:PlayerModel, completion:(error: NSError?) -> Void){
-        let url = NSURL(string: baseAPIhost + path)
+    class func postPlayerDataToURL(path: String, playerData:PlayerModel, completion:(data: NSData?, error: NSError?) -> Void){
+        let url = NSURL( string: baseAPIhost + path )
         var request = NSMutableURLRequest(URL: url!)
-        var postSession = NSURLSession.sharedSession()
-        
         request.HTTPMethod = "PUT"
-        request.HTTPBody = playerData.toJsonString().dataUsingEncoding(NSUTF8StringEncoding);
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        var error: NSError?
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(playerData.toDictionary(), options: nil, error: &error)
+        Alamofire.request(request).responseJSON{ (request, response, responseObject, error) in
+            if responseObject == nil {
+                println(error)
+            } else {
+                println(responseObject)
+            }
+        }
         
-        let task = postSession.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in println("response: \(response)")
-            
-            var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-            println(strData)
-        })//task
-        
-        task.resume()
     }
 }
