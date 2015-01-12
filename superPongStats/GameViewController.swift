@@ -61,7 +61,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         gamePlayersTable.backgroundView = bgImage
         gamePlayersTable.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         gamePlayersTable.separatorStyle = .None
-        gamePlayersTable.rowHeight = 50.0
+        gamePlayersTable.rowHeight = 80.0
         
         updatePlayerTable()
         
@@ -98,8 +98,15 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
             playersInGame.shuffle()
             gamePlayersTable.reloadData()
             self.startButton.setTitle("Started", forState: UIControlState.Normal)
+            GamePlayersAPI.sharedInstance.saveGame("games", title: NSDate().description, winner: -1, active: true)
             gameInProgress = true
         }
+    }
+    
+    func handleGameEnded(playerid:Int){
+        GamePlayersAPI.sharedInstance.saveGameWithWinner("games", winner: playerid)
+        gameInProgress = false
+        self.startButton.setTitle("Start", forState: UIControlState.Normal)
     }
     
     func handlePlayerOutOfGame(player:PlayerModel){
@@ -110,10 +117,26 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let indexPathForRow = NSIndexPath(forRow: index, inSection: 0)
         let cell = self.gamePlayersTable.cellForRowAtIndexPath(indexPathForRow)
-        cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
         cell?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
         cell?.textLabel?.textColor = UIColor.redColor()
-        //notify of player out of game and update records to reflect that
+
+        if(playersInGame.count > 1)
+        {
+            var killerIndex = index - 1
+            if(index <= 0){
+                killerIndex = playersInGame.count - 1
+            }else if(index == playersInGame.count - 1){
+                killerIndex = 0
+            }
+            
+            let killer = playersInGame[killerIndex]
+            
+            GamePlayersAPI.sharedInstance.savePlayerGame("playergames", playerData: player, gameId: 0, position: index, killerId: killer.id)
+        }else{
+            //notify of player win!
+            GamePlayersAPI.sharedInstance.savePlayerGame("playergames", playerData: player, gameId: 0, position: index, killerId: -1)
+            handleGameEnded(player.id)
+        }
     }
 
     /*
@@ -144,6 +167,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.selectionStyle = .None
         cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textColor = UIColor.blackColor()
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 30.0)
         cell.tintColor = UIColor.blackColor()
         cell.textLabel?.text = (indexPath.row + 1).description + ".  " + player.name
         cell.delegate = self

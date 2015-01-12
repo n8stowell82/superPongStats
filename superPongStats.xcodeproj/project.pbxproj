@@ -29,6 +29,8 @@
 		F78FC74C1A50AC99001A3564 /* superPong.png in Resources */ = {isa = PBXBuildFile; fileRef = F78FC7421A50AC99001A3564 /* superPong.png */; };
 		F78FC74D1A50AC99001A3564 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */; };
 		F78FC74E1A50AC99001A3564 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7441A50AC99001A3564 /* TableViewCell.swift */; };
+		F7998D4D1A60DDA900AA0FFC /* PlayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7998D4C1A60DDA900AA0FFC /* PlayerGameViewController.swift */; };
+		F7998D501A60E0C300AA0FFC /* PlayerGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7998D4F1A60E0C300AA0FFC /* PlayerGameModel.swift */; };
 		F7F066701A50BB1A00782E61 /* GamePlayersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F0666F1A50BB1A00782E61 /* GamePlayersAPI.swift */; };
 /* End PBXBuildFile section */
 
@@ -104,6 +106,8 @@
 		F78FC7421A50AC99001A3564 /* superPong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superPong.png; sourceTree = "<group>"; };
 		F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		F78FC7441A50AC99001A3564 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		F7998D4C1A60DDA900AA0FFC /* PlayerGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerGameViewController.swift; sourceTree = "<group>"; };
+		F7998D4F1A60E0C300AA0FFC /* PlayerGameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerGameModel.swift; sourceTree = "<group>"; };
 		F7F0666F1A50BB1A00782E61 /* GamePlayersAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePlayersAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -213,6 +217,7 @@
 				F78FC7411A50AC99001A3564 /* PlayerTableViewController.swift */,
 				F78FC73D1A50AC99001A3564 /* PlayerDetailViewController.swift */,
 				F78FC73C1A50AC99001A3564 /* GameViewController.swift */,
+				F7998D4C1A60DDA900AA0FFC /* PlayerGameViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 			children = (
 				F78FC73E1A50AC99001A3564 /* PlayerModel.swift */,
 				F76994B71A5499A40023B21E /* GameModel.swift */,
+				F7998D4F1A60E0C300AA0FFC /* PlayerGameModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -298,6 +304,7 @@
 				TargetAttributes = {
 					F752AA311A4A17CB000D9BA5 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = T95742DZ56;
 					};
 					F752AA481A4A17CB000D9BA5 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -386,6 +393,8 @@
 				F78FC74E1A50AC99001A3564 /* TableViewCell.swift in Sources */,
 				F7F066701A50BB1A00782E61 /* GamePlayersAPI.swift in Sources */,
 				F78FC7451A50AC99001A3564 /* DataManger.swift in Sources */,
+				F7998D501A60E0C300AA0FFC /* PlayerGameModel.swift in Sources */,
+				F7998D4D1A60DDA900AA0FFC /* PlayerGameViewController.swift in Sources */,
 				F7538C3F1A59E2CA004073D6 /* Async.swift in Sources */,
 				F78FC7481A50AC99001A3564 /* PlayerModel.swift in Sources */,
 				F78FC74B1A50AC99001A3564 /* PlayerTableViewController.swift in Sources */,
@@ -519,9 +528,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = superPongStats/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -529,9 +541,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = superPongStats/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

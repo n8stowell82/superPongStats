@@ -62,6 +62,5 @@ class DataManager {
                 println(responseObject)
             }
         }
-        
     }
 }

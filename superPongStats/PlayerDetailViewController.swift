@@ -9,7 +9,13 @@
 import UIKit
 
 
-class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
+class PlayerDetailViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
+    
+    @IBAction func backToPlayersDetailViewController(segue:UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBOutlet weak var containerView: UIView!
     
     @IBOutlet weak var visualEffectViewBackground: UIVisualEffectView!
     
@@ -33,12 +39,22 @@ class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
     
     var player:PlayerModel?
     
+    let accentColor = UIColor(red: 0.98, green: 0.53, blue: 0.0, alpha: 1.0)
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        var recognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
+//        recognizer.delegate = self
+//        addGestureRecognizer(recognizer)
+        
+        var gestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap:")
+        gestureRecognizer.delegate = self
+        containerView.addGestureRecognizer(gestureRecognizer)
 
         // Do any additional setup after loading the view.
         let total = self.player?.totalGames ?? 0
@@ -56,10 +72,15 @@ class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
         
         self.addToGameButton.layer.borderWidth = 1
         self.addToGameButton.layer.cornerRadius = 5
-//        self.addToGameButton.layer.borderColor = UIColor(red: 0.98, green: 0.53, blue: 0.0, alpha: 1.0).CGColor
-        self.addToGameButton.layer.borderColor = UIColor.darkGrayColor().CGColor
+        self.addToGameButton.layer.borderColor = accentColor.CGColor
+//        self.addToGameButton.layer.borderColor = UIColor.darkGrayColor().CGColor
         
-        self.newPlayerSlogan.layer.borderColor = UIColor.whiteColor().CGColor
+        self.newPlayerSlogan.textColor = accentColor
+        self.newPlayerSlogan.backgroundColor = UIColor.clearColor()
+        self.newPlayerSlogan.layer.borderColor = accentColor.CGColor
+        self.newPlayerSlogan.layer.borderWidth = 1
+        self.newPlayerSlogan.layer.cornerRadius = 6
+        self.newPlayerSlogan.layer.masksToBounds = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +100,13 @@ class PlayerDetailViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         textField.text = nil
         return true;
+    }
+    
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        if recognizer.state == .Ended{
+            newPlayerSlogan.resignFirstResponder()
+            newPlayerSlogan.text = "Input New Slogan"
+        }
     }
 
     /*

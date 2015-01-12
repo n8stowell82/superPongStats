@@ -41,7 +41,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         
         self.refresher = UIRefreshControl()
         self.refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
-        self.refresher.addTarget(self, action: "retrieveTableData", forControlEvents: UIControlEvents.ValueChanged)
+        self.refresher.addTarget(self, action: "loadTableData", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refresher)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad
@@ -59,15 +59,14 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectPlayerForGame:", name: "InGamePLayerAdded", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadPlayerData:", name: "PlayerDataRecieved", object: nil)
         
-        retrieveTableData()
+        loadTableData()
         
         //tableView setup
        
         self.tableView.backgroundColor = UIColor.darkGrayColor()
         self.tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.separatorStyle = .None
-        self.tableView.rowHeight = 50.0
-        
+        self.tableView.rowHeight = 80.0
         self.tableView.reloadData()
         
     }
@@ -106,6 +105,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         cell.selectionStyle = .None
         cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textColor = UIColor.blackColor()
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 30.0)
         cell.tintColor = UIColor.blackColor()
         cell.textLabel?.text = "#" + player.rank.description + " " + player.name
         cell.accessoryType = UITableViewCellAccessoryType.DetailButton
@@ -115,23 +115,21 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         return cell
     }
     
-    func retrieveTableData(){
-        GamePlayersAPI.sharedInstance.getAllPlayersAsync()
-    }
-    
     func colorForIndex(index: Int) -> UIColor {
         let itemCount = players.count - 1
         let val = (CGFloat(index) / CGFloat(itemCount)) * 0.6
         return UIColor(red: 1.0, green: val, blue: 0.0, alpha: 1.0)
     }
     
-    func loadPlayerData(notification: NSNotification){
-        let userInfo = notification.userInfo as [String: AnyObject]
-        players = userInfo["players"] as [PlayerModel]
-        players.sort({ $0.rank < $1.rank })
-        players.reverse()
-        tableView.reloadData()
-        self.refreshControl?.endRefreshing()
+    func loadTableData(){
+        GamePlayersAPI.sharedInstance.loadAllPlayers({ (data, error) -> Void in
+            self.players = data!
+            
+            self.players.sort({ $0.rank < $1.rank })
+            self.players.reverse()
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        })
     }
     
     func AddPlayerToGame(player: PlayerModel) {
