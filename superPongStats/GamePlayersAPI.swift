@@ -14,6 +14,8 @@ class GamePlayersAPI: NSObject {
     let baseAPIhost = "https://powerful-wildwood-4113.herokuapp.com/api/"
     
     private var players = [PlayerModel]()
+    
+    private var games = [GameModel]()
    
     //1
     class var sharedInstance: GamePlayersAPI {
@@ -28,7 +30,10 @@ class GamePlayersAPI: NSObject {
     
     func getPlayersInGame() -> [PlayerModel] {
         return players
-
+    }
+    
+    func updatePlayersInGame(playersInGame:[PlayerModel]){
+        players = playersInGame
     }
     
     func addPlayerToGame(player: PlayerModel) {
@@ -50,6 +55,26 @@ class GamePlayersAPI: NSObject {
         notifyOfPlayerRemoval(player)
     }
     
+    func loadAllGames( success: (data:[GameModel]?, error:NSError?) -> Void){
+        let URL = baseAPIhost + "Games"
+        
+        Alamofire.request(.GET, URL, parameters: nil, encoding: .JSON).responseJSON { (request, response, data, error) ->Void in
+                let json = JSON(object: data!)
+                if let gameArray = json.arrayValue {
+                    for game in gameArray{
+                        let id:Int? = game["id"].integerValue
+                        let title:String? = game["title"].stringValue
+                        let winner:Int? = game["winner"].integerValue
+                        let active:Bool = game["active"].boolValue
+                        
+                        let newGame = GameModel(gameId: id!, gameTitle: title!, gameWinner: winner!, isActive: active)
+                        self.games.append(newGame)
+                    }
+                }
+                success(data: self.games, error: error)
+            }
+    }
+    
     func loadAllPlayers( success: (data:[PlayerModel]?, error:NSError?) -> Void){
         
         let URL = baseAPIhost + "Players"
@@ -58,33 +83,27 @@ class GamePlayersAPI: NSObject {
         .responseJSON { (request, response, data, error) -> Void in
             if error == nil
             {
-                let players = self.populatePlayerDataFromJson(data!)
-                success(data: players, error: error)
+                self.loadAllGames({(gameData,error) -> Void in
+                    let players = self.populatePlayerDataFromJson(data!, gameData: gameData!)
+                    success(data: players, error: error)
+                })
             }else{
                 println(error)
             }
         }
     }
     
-    func getAllPlayersAsync() -> Void{
-        var players = [PlayerModel]()
-        var playerData:NSData?
-        
-        if Reachability.isConnectedToNetwork()
-        {
-            DataManager.loadPlayerDataFromURL("players", completion: {(data,error) -> Void in
-                if let tmpData = data{
-                    players = self.populatePlayerDataFromJson(tmpData)
-                    self.notifyOfPlayerDataRecieved(players)
-                }
-                })
-        }else{
-            DataManager.getPlayerDataFromFileWithSuccess{(data) -> Void in
-                players = self.populatePlayerDataFromJson(data)
-                self.notifyOfPlayerDataRecieved(players)
-            }
-        }
-    }
+//    func getAllPlayersFromFile() -> Void{
+//        var players = [PlayerModel]()
+//        var playerData:NSData?
+//        
+//        DataManager.loadPlayerDataFromURL("players", completion: {(data,error) -> Void in
+//            if let tmpData = data{
+//                players = self.populatePlayerDataFromJson(tmpData)
+//                self.notifyOfPlayerDataRecieved(players)
+//            }
+//        })
+//    }
     
     func savePlayerSlogan(playerModel:PlayerModel) -> Void{
         let path = "players/" + playerModel.id.description
@@ -93,16 +112,25 @@ class GamePlayersAPI: NSObject {
         })
     }
     
-    func savePlayerToDB() -> Void {
+    func saveNewPlayerToDB(player:PlayerModel) -> Void {
         
+        let parameters = [
+            "name": player.name,
+            "slogan": player.slogan,
+            "rank": 0.description as NSString
+        ]
+        
+        Alamofire.request(.POST, "players",parameters: parameters, encoding: .JSON).response{ (request, response, data, error) -> Void in
+            println(data)
+        }
     }
     
-    func savePlayerGame(path:String, playerData:PlayerModel, gameId:Int, position:Int, killerId:Int) -> Void {
+    func savePlayerGame(path:String, playerData:PlayerModel, position:Int, gameid:Int, killerId:Int) -> Void {
         
         let parameters = [
             "playerid": playerData.id,
             "killerid": killerId,
-            "gameid": gameId,
+            "gameid": gameid.description as NSString,
             "position": position
         ]
         
@@ -111,6 +139,15 @@ class GamePlayersAPI: NSObject {
             println(request)
             println(response)
             println(error)
+        }
+    }
+    
+    func getCurrentActiveGame( completion: (data:AnyObject, error:NSError?)->Void){
+        let url = baseAPIhost + "games?filter[where][active]=true&filter[limit]=1"
+        
+        Alamofire.request(.GET, url).responseJSON { (request, response, jdata, error) -> Void in
+                println(jdata)
+            completion(data: jdata!, error: error)
         }
     }
     
@@ -138,13 +175,8 @@ class GamePlayersAPI: NSObject {
             "active": false
         ]
         
-        let url = baseAPIhost + "games?filter[where][active]=true&filter[limit]=1"
-        
-        Alamofire.request(.GET, url)
-            .responseJSON { (request, response, jdata, error) -> Void in
-                println(jdata)
-            
-                let jsonData = JSON(object: jdata!)
+        self.getCurrentActiveGame({ (data, error) -> Void in
+                let jsonData = JSON(object: data)
                 if let data = jsonData.arrayValue {
                     let id = data[0]["id"].integerValue ?? -1
                 
@@ -156,7 +188,7 @@ class GamePlayersAPI: NSObject {
                             println(error)
                     }
                 }
-        }
+        })
     }
     
     func loadAllGamesForPlayer(playerId:Int, success: (data:[PlayerGameModel]?, error:NSError?) -> Void)
@@ -183,20 +215,25 @@ class GamePlayersAPI: NSObject {
         
     }
     
-    private func populatePlayerDataFromJson(data:AnyObject) ->[PlayerModel]{
+    private func populatePlayerDataFromJson(data:AnyObject, gameData:[GameModel]) ->[PlayerModel]{
         var allPlayers = [PlayerModel]()
         let json = JSON(object: data)
         if let playerArray = json.arrayValue {
-            
             for playerData in playerArray{
                 let id: Int? = playerData["id"].integerValue
                 let name: String? = playerData["name"].stringValue
                 let slogan: String? = playerData["slogan"].stringValue
                 let rank: Int? = (playerData["rank"].integerValue == 0) ? 100 : playerData["rank"].integerValue
-                let wins: Int? = playerData["wins"].integerValue
                 let totalGames: Int? = playerData["totalGames"].integerValue
                 let mostKilled: String? = playerData["mostKilled"].stringValue
                 let mostKilledBy: String? = playerData["mostKilledBy"].stringValue
+                var tmpwins:Int = 0
+                for game in gameData{
+                    if game.winner == id{
+                        tmpwins++
+                    }
+                }
+                let wins = tmpwins
                 
                 let player = PlayerModel(id: id, name: name, slogan: slogan, rank: rank, wins: wins, totalGames: totalGames, mostKilled: mostKilled, mostKilledBy: mostKilledBy)
                 

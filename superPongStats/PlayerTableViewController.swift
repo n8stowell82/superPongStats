@@ -30,7 +30,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     }
     
     var players = [PlayerModel]()
-//    var playersInGame = [PlayerModel]()
+    var ranks = [Int]()
     
     var delegate: PLayerViewDelegate?
     
@@ -43,6 +43,7 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         self.refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
         self.refresher.addTarget(self, action: "loadTableData", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refresher)
+        self.tableView.alwaysBounceVertical = true
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad
         {
@@ -101,7 +102,11 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         
         // Configure the cell
         cell.canAddPlayer = true
-        cell.backgroundColor = colorForIndex(indexPath.row)
+        if player.isInCurrentGame{
+            decoratePlayerAsSelected(player)
+        }else{
+            cell.backgroundColor = colorForIndex(indexPath.row)
+        }
         cell.selectionStyle = .None
         cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textColor = UIColor.blackColor()
@@ -123,20 +128,36 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     
     func loadTableData(){
         GamePlayersAPI.sharedInstance.loadAllPlayers({ (data, error) -> Void in
+
             self.players = data!
+            self.ranks.removeAll(keepCapacity: false)
+            self.populateRanks()
+            self.calculatePlayersRank()
             
             self.players.sort({ $0.rank < $1.rank })
-            self.players.reverse()
+            
+            self.refresher.endRefreshing()
             self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
+
+            let playersInGame = GamePlayersAPI.sharedInstance.getPlayersInGame()
+            for player in self.players{
+                for activePlayer in playersInGame{
+                    if player.id == activePlayer.id {
+                        player.isInCurrentGame = true
+                        self.decoratePlayerAsSelected(player)
+                    }
+                }
+            }
         })
     }
     
     func AddPlayerToGame(player: PlayerModel) {
-        GamePlayersAPI.sharedInstance.addPlayerToGame(player)
-        player.isInCurrentGame = true;
-        // could removeAtIndex in the loop but keep it here for when indexOfObject works
-        decoratePlayerAsSelected(player)
+        if(!player.isInCurrentGame){
+            GamePlayersAPI.sharedInstance.addPlayerToGame(player)
+            player.isInCurrentGame = true;
+            // could removeAtIndex in the loop but keep it here for when indexOfObject works
+            decoratePlayerAsSelected(player)
+        }
     }
     
     func RemovePlayerFromGame(player: PlayerModel) {
@@ -151,11 +172,12 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         let index = (players as NSArray).indexOfObject(player!)
         if index == NSNotFound { return }
         
+        player?.isInCurrentGame = false
+        
         let indexPathForRow = NSIndexPath(forRow: index, inSection: 0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPathForRow)
         cell?.accessoryType = UITableViewCellAccessoryType.DetailButton
         cell?.backgroundColor = colorForIndex(index)
-        
     }
     
     func selectPlayerForGame(notification: NSNotification){
@@ -172,6 +194,35 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
         let cell = self.tableView.cellForRowAtIndexPath(indexPathForRow)
         cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
         cell?.backgroundColor = UIColor(red: 0.0, green: 0.6, blue: 0.0, alpha: 1.0)
+    }
+    
+    private func populateRanks() ->Void{
+        if ranks.count == 0 {self.ranks.append(0)}
+        for player in self.players{
+            for rank in self.ranks{
+                if player.wins > rank{
+                    if !contains(ranks, player.wins){
+                        self.ranks.append(player.wins)
+                    }
+                }
+            }
+        }
+        self.ranks.sort({ $0 > $1 })
+    }
+    
+    private func calculatePlayersRank() ->Void{
+        var rank = 0
+        for player in players{
+            var rankIndex = 0
+            for rank in ranks{
+                rankIndex++
+                if(player.wins == rank){
+                    player.rank = rankIndex
+                }
+            }
+        }
+        
+        
     }
 
     /*
@@ -210,7 +261,13 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     */
     
     override func tableView(tableView: UITableView, willDisplayCell cell:UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.backgroundColor = colorForIndex(indexPath.row)
+        let player = self.players[indexPath.row]
+        if player.isInCurrentGame{
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            cell.backgroundColor = UIColor(red: 0.0, green: 0.6, blue: 0.0, alpha: 1.0)
+        }else{
+            cell.backgroundColor = colorForIndex(indexPath.row)
+        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

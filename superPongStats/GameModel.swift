@@ -9,15 +9,17 @@
 import Foundation
 
 class GameModel: NSObject, Printable {
-    var gameTitle:String
-    var winner: PlayerModel?
-    var players = [PlayerModel]()
-    //Dictionary of kills in game <Killed, KilledBy>
-    var kills = Dictionary<Int,Int>()
+    var title:String?
+    var winner: Int?
+    var active:Bool?
+    var id:Int?
     
     
-    override init()
+    init(gameId:Int, gameTitle:String, gameWinner:Int, isActive:Bool)
     {
-        gameTitle = NSDate().description
+        id = gameId
+        title = gameTitle
+        winner = gameWinner
+        active = isActive
     }
 }

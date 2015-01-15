@@ -12,11 +12,11 @@ class PlayerModel: Serializable, Printable {
     let id: Int
     let name: String
     var slogan: String
-    let rank: Int
     let wins: Int
     let totalGames: Int
     let mostKilled: String
     let mostKilledBy: String
+    var rank: Int
     var isInCurrentGame: Bool
     
     init(id: Int?, name: String?, slogan: String?, rank: Int?, wins: Int?, totalGames:Int?, mostKilled:String?, mostKilledBy:String?) {

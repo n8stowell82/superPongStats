@@ -29,6 +29,9 @@
 		F78FC74C1A50AC99001A3564 /* superPong.png in Resources */ = {isa = PBXBuildFile; fileRef = F78FC7421A50AC99001A3564 /* superPong.png */; };
 		F78FC74D1A50AC99001A3564 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */; };
 		F78FC74E1A50AC99001A3564 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78FC7441A50AC99001A3564 /* TableViewCell.swift */; };
+		F79648CD1A6461DD007F2C04 /* HRToast+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79648CC1A6461DD007F2C04 /* HRToast+UIView.swift */; };
+		F79648D01A6479AC007F2C04 /* NewPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79648CF1A6479AC007F2C04 /* NewPlayerViewController.swift */; };
+		F79648D21A66FDB3007F2C04 /* AllGameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79648D11A66FDB3007F2C04 /* AllGameTableViewController.swift */; };
 		F7998D4D1A60DDA900AA0FFC /* PlayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7998D4C1A60DDA900AA0FFC /* PlayerGameViewController.swift */; };
 		F7998D501A60E0C300AA0FFC /* PlayerGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7998D4F1A60E0C300AA0FFC /* PlayerGameModel.swift */; };
 		F7F066701A50BB1A00782E61 /* GamePlayersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F0666F1A50BB1A00782E61 /* GamePlayersAPI.swift */; };
@@ -106,6 +109,9 @@
 		F78FC7421A50AC99001A3564 /* superPong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superPong.png; sourceTree = "<group>"; };
 		F78FC7431A50AC99001A3564 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		F78FC7441A50AC99001A3564 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		F79648CC1A6461DD007F2C04 /* HRToast+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HRToast+UIView.swift"; sourceTree = "<group>"; };
+		F79648CF1A6479AC007F2C04 /* NewPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPlayerViewController.swift; sourceTree = "<group>"; };
+		F79648D11A66FDB3007F2C04 /* AllGameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllGameTableViewController.swift; sourceTree = "<group>"; };
 		F7998D4C1A60DDA900AA0FFC /* PlayerGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerGameViewController.swift; sourceTree = "<group>"; };
 		F7998D4F1A60E0C300AA0FFC /* PlayerGameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerGameModel.swift; sourceTree = "<group>"; };
 		F7F0666F1A50BB1A00782E61 /* GamePlayersAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePlayersAPI.swift; sourceTree = "<group>"; };
@@ -209,6 +215,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F79648CB1A6461DD007F2C04 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				F79648CC1A6461DD007F2C04 /* HRToast+UIView.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		F7E5159C1A51303C0012762C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +232,8 @@
 				F78FC73D1A50AC99001A3564 /* PlayerDetailViewController.swift */,
 				F78FC73C1A50AC99001A3564 /* GameViewController.swift */,
 				F7998D4C1A60DDA900AA0FFC /* PlayerGameViewController.swift */,
+				F79648CF1A6479AC007F2C04 /* NewPlayerViewController.swift */,
+				F79648D11A66FDB3007F2C04 /* AllGameTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -235,6 +251,7 @@
 		F7E5159E1A5130920012762C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				F79648CB1A6461DD007F2C04 /* Toast */,
 				F7538C3E1A59E2CA004073D6 /* Async.swift */,
 				F78FC7441A50AC99001A3564 /* TableViewCell.swift */,
 				F7538C421A5BA862004073D6 /* JSON */,
@@ -383,13 +400,16 @@
 			files = (
 				F78FC7461A50AC99001A3564 /* GameViewController.swift in Sources */,
 				F752AA3C1A4A17CB000D9BA5 /* DetailViewController.swift in Sources */,
+				F79648D01A6479AC007F2C04 /* NewPlayerViewController.swift in Sources */,
 				F78FC7471A50AC99001A3564 /* PlayerDetailViewController.swift in Sources */,
+				F79648CD1A6461DD007F2C04 /* HRToast+UIView.swift in Sources */,
 				F78FC74D1A50AC99001A3564 /* SwiftyJSON.swift in Sources */,
 				F7538C441A5BA87C004073D6 /* serializable.swift in Sources */,
 				F752AA3A1A4A17CB000D9BA5 /* MasterViewController.swift in Sources */,
 				F76994B81A5499A40023B21E /* GameModel.swift in Sources */,
 				F752AA381A4A17CB000D9BA5 /* AppDelegate.swift in Sources */,
 				F7538C411A5BA1B8004073D6 /* JSONer.swift in Sources */,
+				F79648D21A66FDB3007F2C04 /* AllGameTableViewController.swift in Sources */,
 				F78FC74E1A50AC99001A3564 /* TableViewCell.swift in Sources */,
 				F7F066701A50BB1A00782E61 /* GamePlayersAPI.swift in Sources */,
 				F78FC7451A50AC99001A3564 /* DataManger.swift in Sources */,

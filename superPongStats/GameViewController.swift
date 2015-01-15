@@ -28,6 +28,10 @@ extension Array {
 
 class GameViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TableViewCellDelegate{
     
+    @IBAction func cancelToGameViewController(segue:UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBOutlet weak var gamePlayersTable: UITableView!
     
     @IBOutlet weak var playerCountLabel: UILabel!
@@ -42,12 +46,15 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var playersInGame = [PlayerModel]()
     var playersKilled = [PlayerModel]()
     var gameInProgress: Bool = false
+    var currentGameId:Int = -1
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePlayerTable", name: "InGamePlayersUpdated", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerAddedToGame:", name: "InGamePLayerAdded", object: nil)
         
         //tableView setup
         var bg = UIImage(named: "spLogo.png")
@@ -86,20 +93,44 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         gamePlayersTable.reloadData()
     }
     
+    func playerAddedToGame(notification: NSNotification){
+        let userInfo = notification.userInfo as [String: AnyObject]
+        let player = userInfo["player"] as PlayerModel?
+        self.view.makeToast(message: player!.name + " Added To Game", duration: 1.4, position: "center")
+    }
+    
     func RemovePlayerFromGame(player: PlayerModel) {
         if gameInProgress{
             handlePlayerOutOfGame(player)
         }
         GamePlayersAPI.sharedInstance.deletePlayer(player)
+        self.view.makeToast(message: player.name + " Removed From Game", duration: 1.4, position: "center")
+    }
+    
+    func getCurrentGameId(success:(data:Bool)->Bool){
+        GamePlayersAPI.sharedInstance.getCurrentActiveGame({(data,error)->Void in
+            let jsonData = JSON(object: data)
+            if let data = jsonData.arrayValue {
+                self.currentGameId = data[0]["id"].integerValue ?? -1
+                
+                success(data: (self.currentGameId == -1) ? false : true)
+            }
+        })
     }
     
     func handleStartHit(){
         if(!gameInProgress && playersInGame.count > 1){
+            gameInProgress = true
             playersInGame.shuffle()
+            GamePlayersAPI.sharedInstance.updatePlayersInGame(playersInGame)
             gamePlayersTable.reloadData()
             self.startButton.setTitle("Started", forState: UIControlState.Normal)
             GamePlayersAPI.sharedInstance.saveGame("games", title: NSDate().description, winner: -1, active: true)
-            gameInProgress = true
+            self.view.makeToast(message: "Game Has Started", duration: 1.4, position: "center")
+            
+            getCurrentGameId({(data)->Bool in
+                return data
+            })
         }
     }
     
@@ -107,6 +138,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         GamePlayersAPI.sharedInstance.saveGameWithWinner("games", winner: playerid)
         gameInProgress = false
         self.startButton.setTitle("Start", forState: UIControlState.Normal)
+        self.view.makeToast(message: "Game Over!", duration: 1.4, position: "center")
     }
     
     func handlePlayerOutOfGame(player:PlayerModel){
@@ -131,10 +163,10 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             let killer = playersInGame[killerIndex]
             
-            GamePlayersAPI.sharedInstance.savePlayerGame("playergames", playerData: player, gameId: 0, position: index, killerId: killer.id)
+            GamePlayersAPI.sharedInstance.savePlayerGame("playergames", playerData: player, position: index, gameid: currentGameId, killerId: killer.id)
         }else{
             //notify of player win!
-            GamePlayersAPI.sharedInstance.savePlayerGame("playergames", playerData: player, gameId: 0, position: index, killerId: -1)
+            GamePlayersAPI.sharedInstance.savePlayerGame("playergames", playerData: player, position: index, gameid: currentGameId, killerId: -1)
             handleGameEnded(player.id)
         }
     }
@@ -195,8 +227,8 @@ class GameViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let indexPathForRow = NSIndexPath(forRow: index, inSection: 0)
         let cell = gamePlayersTable.cellForRowAtIndexPath(indexPathForRow)
         playersInGame.append(player)
-        cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
         cell?.backgroundColor = UIColor(red: 0.0, green: 0.6, blue: 0.0, alpha: 1.0)
+        
     }
     
     // Mark: - Table view delegate
