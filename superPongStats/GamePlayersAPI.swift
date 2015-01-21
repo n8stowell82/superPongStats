@@ -61,6 +61,7 @@ class GamePlayersAPI: NSObject {
         Alamofire.request(.GET, URL, parameters: nil, encoding: .JSON).responseJSON { (request, response, data, error) ->Void in
                 let json = JSON(object: data!)
                 if let gameArray = json.arrayValue {
+                    if(self.games.count > 0){self.games.removeAll(keepCapacity: false)}
                     for game in gameArray{
                         let id:Int? = game["id"].integerValue
                         let title:String? = game["title"].stringValue
@@ -224,7 +225,6 @@ class GamePlayersAPI: NSObject {
                 let name: String? = playerData["name"].stringValue
                 let slogan: String? = playerData["slogan"].stringValue
                 let rank: Int? = (playerData["rank"].integerValue == 0) ? 100 : playerData["rank"].integerValue
-                let totalGames: Int? = playerData["totalGames"].integerValue
                 let mostKilled: String? = playerData["mostKilled"].stringValue
                 let mostKilledBy: String? = playerData["mostKilledBy"].stringValue
                 var tmpwins:Int = 0
@@ -234,6 +234,7 @@ class GamePlayersAPI: NSObject {
                     }
                 }
                 let wins = tmpwins
+                let totalGames:Int = gameData.count
                 
                 let player = PlayerModel(id: id, name: name, slogan: slogan, rank: rank, wins: wins, totalGames: totalGames, mostKilled: mostKilled, mostKilledBy: mostKilledBy)
                 

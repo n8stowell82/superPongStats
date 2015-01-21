@@ -59,7 +59,7 @@ class PlayerDetailViewController: UIViewController, UITextFieldDelegate, UIGestu
         // Do any additional setup after loading the view.
         let total = self.player?.totalGames ?? -1
         let wins = self.player?.wins ?? 0
-        let losses = -1 // abs( total - wins )
+        let losses = abs( total - wins )
         let slogan = self.player?.slogan ?? ""
         
         let rank  = self.player?.rank.description ?? "0"

@@ -271,6 +271,12 @@ class PlayerTableViewController: UITableViewController, TableViewCellDelegate {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: UITableViewScrollPosition.None)
+        self.performSegueWithIdentifier("playerDetail", sender: tableView)
+    }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        self.tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: UITableViewScrollPosition.None)
         self.performSegueWithIdentifier("playerDetail", sender: tableView)
     }
 
